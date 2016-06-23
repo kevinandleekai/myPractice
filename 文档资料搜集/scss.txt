@@ -1,0 +1,12 @@
+目前较为流行SASS GUI工具的主要有：
+1.Koala (http://koala-app.com/) (http://koala-app.com/index-zh.html)
+2.Compass.app（http://compass.kkbox.com/）
+3.Scout（http://mhs.github.io/scout-app/）
+4.CodeKit（https://incident57.com/codekit/index.html）
+5.Prepros（https://prepros.io/）
+
+在 Sass 中编译出来的样式风格也可以按不同的样式风格显示。其主要包括以下几种样式风格：
+ 1.嵌套输出方式 nested
+ 2.展开输出方式 expanded  
+ 3.紧凑输出方式 compact 
+ 4.压缩输出方式 compressed
