@@ -2,9 +2,79 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>loading动画加载样式...</title>
+	<style type="text/css">
+	 	body, p {
+	 		margin: 0;
+	 	}
+	 	body {
+	 		font-family: "Microsoft YaHei";
+	 	}
+		.ui-loading-wrap {
+		    height: 40px;
+		    display: -webkit-box;
+		    -webkit-box-pack: center;
+		    -webkit-box-align: center;
+		    text-align: center;
+		}
+		.ui-loading {
+    		display: block;
+			width: 20px;
+    		height: 20px;
+    		background: url(imgs/loading_sprite.png);
+    		-webkit-background-size: auto 20px;
+    		background-size: auto 20px;
+    		-webkit-animation: rotate 1s steps(12) infinite;
+    		margin: 10px;
+		}
+		.ui-loading-icon {
+			display: block;
+			width: 20px;
+			height: 20px;
+			border: 2px solid #f00;
+			border-radius: 100%;
+			border-bottom-color: transparent;
+			background: 0 0 !important;
+			-webkit-animation: rotate 0.75s 0s linear infinite;
+			animation: rotate 0.75s 0s linear infinite;
+			margin: 10px;
+		}
+		@-webkit-keyframes rotate {
+			0% {
+				-webkit-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+		@keyframes rotate {
+			0% {
+				-webkit-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+
+	</style>
 </head>
 <body>
-	
+	<div id="content">
+		<div class="ui-loading-wrap">
+			<p>正在加载中...</p>
+			<i class="ui-loading"></i>
+		</div>
+
+		<div class="ui-loading-wrap">
+			<p>正在加载中...</p>
+			<i class="ui-loading-icon"></i>
+		</div>
+	</div>
 </body>
 </html>
