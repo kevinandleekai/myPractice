@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>JS输入自动完成提示功能</title>
+	<style type="text/css">
+		.resultsCss {
+			position:absolute;
+			overflow-y:auto; 
+			overflow-x:hidden; 
+			display:none;
+			border:solid 1px gray; 
+			background-color:#F0FFFF;
+		}
+		.item {
+			line-height:20px;
+			height:20px;
+			padding: 2px;
+			width:100%;
+			overflow: hidden;
+		}
+		.chooseItem {
+			background-color: #008B8B;
+			color:White;
+			cursor: pointer;
+			height:20px;
+			padding: 2px;
+			width:100%;
+			line-height:20px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<label for="inpt">请输入：</label>
+		<input type="text" id="inpt" />
+	</div>
+	<div id="tipList" class="resultsCss"></div>
+	<script type="text/javascript">
+		(function(){
+			/*封装使用频繁的变量，在构造函数中进行初始化*/
+			var commonObj = {};
+			function AutoComplete(opts) {
+				/*需要实现自动完成功能的页面控件ID*/
+				this.controlId = opts.controlId;	
+				/*匹配结果div的id*/
+				this.resultDivId = opts.resultDivId;
+				/*当前选中的项索引，第一项索引为0*/
+				this.index = -1;
+				/*静态数据*/
+				this.datas = opts.datas;
+				/*动态获取的数据集*/
+				this.dynamicDatas = null;
+				/*服务器端地址*/
+				this.serverUrl = option.serverUrl;
+				/*匹配结果集合*/
+				this.resultDatas = null;
+				/*ajax请求数据*/
+				this.ajaxRequestData = option.ajaxRequestData;
+				/*主要用在一个后台页面处理多个前端自动完成请求的情况，根据此字段调用具体的后台方法*/
+				this.actionName = option.actionName;
+				/*是否可以循环选择*/
+				this.circleChoose = option.circleChoose || "true";
+				/*是否从服务器端获取数据*/
+				this.serverEnabled = option.serverEnabled || "false";
+				/*是否使用静态数据*/
+				/*一般情况下，自动完成都是获取动态数据的，开启这个标志后，在获取动态数据失败的情况下会使用静态数据，默认为false*/ 
+				this.useStaticDatas = option.useStaticDatas||"false"; 
+				/*驱动函数*/
+				this.drivenFuc = null;
+				/*自定义数据获取方法*/
+				this.getCompleteDatas = function() {
+					if( typeof option.getCompleteDatas === 'function' ){
+						return option.getCompleteDatas();
+					}else {
+						return null;
+					}
+				};
+				//私有变量，封装后面常用的4个变量
+				//var commonObj = {};
+				//通过匿名函数来构造一个类似面向对象语言中的只读属性
+				//初始化commonObj变量
+				//注意：匿名函数中的this指向windows对象，这里需要将AutoComplete对象的引用赋值给that
+				(function(that){
+					commonObj = {
+						control: document.getElementById(that.controlId),
+						results: document.getElementById(that.resultDivId),
+						jControl: $(document.getElementById(that.controlId)),
+						jResults: $(document.getElementById(that.resultDivId)),
+					};
+				}(this));
+			}
+			AutoComplete.prototype = {
+				//指定构造函数
+				constructor: AutoComplete,
+				getEvent: function() {
+					return window.event || arguments[0];
+				},
+				getTarget: function(event) {
+					return event.target || event.srcElement;
+				},
+				// 计算div的偏移量
+				getOffset: function() {
+					var x = obj.offsetLeft || 0;
+					var y = obj.offsetTop || 0;
+					var temp = obj;
+					while (temp.offsetParent) {
+						 temp = temp.offsetParent;
+						 x += temp.offsetLeft;
+						 y += temp.offsetTop;
+					}
+					return { left: x, top: y };
+				},
+				// 将tagetDiv定位到sourceDiv下方，与sourceDic左对齐，宽度一致
+				positionDiv: function(sourceDiv, targetDiv) {
+					var obj = document.getElementById(sourceDiv);
+					var xy = this.getOffset(obj);
+					$("#" + targetDiv).css("left", xy.left);
+					$("#" + targetDiv).css("width", $("#" + sourceDiv).outerWidth());
+					$("#" + targetDiv).css("top", (xy.top + $("#" + sourceDiv).outerHeight()));
+				},
+				init: function() {
+					var control = document.getElementById(this.controlId);
+					var results = document.getElementById(this.resultDivId);
+					var jControl = $(control);
+					var jResults = $(results);
+					var autoThisObj = this;
+					document.onclick = function() {
+						var target = autoThisObj.getTarget(autoThisObj.getEvent(event));
+						 if (target.id == autoThisObj.controlId) {
+						 	 return false;
+						}
+						autoThisObj.clearResults();
+					}
+					jResults.bind("keydown", function(event) {
+						jControl.keydown();
+						return false;
+					}
+				}
+			};
+
+
+		}())
+	</script>
+</body>
+</html>
