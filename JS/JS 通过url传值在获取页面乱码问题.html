@@ -1,0 +1,11 @@
+在实际的项目当中，不可避免的为了方便，所以就通过url传值了。例如现在有 a.html页面和 b.html页面假设在a.html页面有一个空的div id为 box，它的文本为 我是box，现在我需要将这个值传到 b.html页面去，在b.html页面打开的时候，显示a.html页面 box的内容，那么会用到如下代码：
+   var oBox = document.getElementById("box");
+   var txt = oBox.innerHTML;
+   window.location.href = "b.html?key="+txt;
+这样传过去在b.html页面会是乱码的
+所以这边的解决办法是：
+  var oBox = document.getElementById("box");
+  var txt = encodeURI(encodeURI(oBox.innerHTML));
+  这里记得要使用encodeURI两次，不然还是乱码
+
+ 在 b.html获取到url后面的key值后记得要  使用  decodeURI(key);
