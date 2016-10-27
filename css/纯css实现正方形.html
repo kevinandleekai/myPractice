@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"  content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>纯CSS实现正方形</title>
+  <style type="text/css">
+      body {
+          margin: 0;
+      }
+      .box1 {
+            height: 100vw;
+            background-color: #f60;
+            margin-bottom: 10px;
+      }
+      .box2 {
+            padding-bottom: 100%;
+            /*padding-top: 100%;*/
+            background-color: #060;
+            height: 0;   /*注意height设置为0是必须的，不然会发现往里面塞内容的时候，div的高度会增高*/
+            margin-bottom: 10px;
+      }
+      .box3 {
+            background-color: #006;
+            position: relative;
+      }
+      .box3:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+      }
+      .box3 .cont {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: #600;
+      }
+  </style>
+</head>
+<body>
+       <!-- 纯CSS实现正方形效果有很多种方式，目前我所掌握的三种方式有如下
+       1.  使用 "vw" 单位    兼容性不好
+       2.  使用  padding（top/bottom: 100%）实现    导致max-height属性失效
+       3. 使用before或者after伪元素实现  比较完美的方式 -->
+
+       <!-- 方法一：  vw -->
+       <!-- vw当对于viewport的宽度, 注意不是相对于clientWidth就是当body的margin值没有去掉时就会知道为什么不是clientWidth-->
+       <div class="box1">内容区域1</div>
+
+       <!-- 方法二: margin或者padding -->
+       <div class="box2">内容区域2</div>
+       
+       <!-- 方法三: 使用before或者after伪元素实现 -->
+       <div class="box3">
+            <div class="cont"></div>
+       </div>
+
+
+</body>
+</html>
